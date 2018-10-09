@@ -153,7 +153,7 @@ Le merge est utilisé, comme son nom l'indique, pour fusionner une branche avec 
 
 Normalement la vous devriez vous dire "mais je ne comprends pas, pour récupérer les modifs d'une branche on utilise rebase, et la tu nous parles de merge..." et vous avez parfaitement raison ! Il y a néanmoins une petite subtilité entre les 2 (sinon il n'y aura qu'une seule commande !).
 
-Le rebase a pour but premier de réécrire l'historique du projet (cette partie sera abordée dans le cours avancée). Lorsque vous faites un rebase de la develop sur votre branche local, les commits de cette dernière seront réécrit. Pour vérifier cela il suffit de regarder l'id des commits en question, après rebase ils ont changé. C'est la que le rebase pour problème pour la develop, en effet cette dernière est une branche protégée donc son historique ne peut à aucun moment être réécrit. C'est la que le merge entre en action !
+Le rebase a pour but premier de réécrire l'historique du projet (cette partie sera abordée dans le cours avancée). Lorsque vous faites un rebase de la develop sur votre branche local, les commits de cette dernière seront réécrit. Pour vérifier cela il suffit de regarder l'id des commits en question, après rebase ils ont changé. C'est la que le rebase pose problème pour la develop, en effet cette dernière est une branche protégée donc son historique ne peut à aucun moment être réécrit. C'est la que le merge entre en action !
 
 Le merge va simplement ajouter les commits de notre branche locale à la suite des commits de la develop. Il y a une condition toutefois à respecter pour que le merge se passe bien, que les 2 branches soient à jour ou dit en langage git...que la branche develop ait bien été rebase de la branche locale ! (Attention aux noeuds au cerveau :))
 
@@ -197,3 +197,14 @@ git push -f
 > -f ou --force pour "forcer" git à écraser le contenu
 
 Il y a une règle d'or à ABSOLUMENT respecter, il ne faut jamais force push la branche develop ou master car ces dernières sont protégées et doivent avoir un historique propre. Par contre il y a aucun soucis à force push votre branche locale, c'est tout à fait commun ! Attention toutefois si vous êtes plusieurs à travailler sur la même branche :)
+
+## À vous de jouer !
+
+Le but de cet excercice est de simuler un projet avec 3 personnes travaillant en parallèle.
+Pour cela tirez 3 nouvelles branches EN MÊME TEMPS :
+
+- Dans la 1e vous modifierez le fichier README.md en ajoutant ce que vous avez aimé dans ce CodeLabs.
+- Dans la 2e vous ajouterez une image de votre humeur actuellement.
+- Dans la 3e vous modifierez le fichier README.md en ajoutant ce qui pourrait être amélioré dans ce CodeLabs.
+
+La branche develop devra contenir donc 3 commits à la fin :)
