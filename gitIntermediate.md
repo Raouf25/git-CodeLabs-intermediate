@@ -19,7 +19,7 @@ Pré-requis:
 
 - Avoir **git** installé sur votre machine.
 - Avoir un compte Github/Gitlab pour pouvoir forker le projet
-- Être à l'aise avec les bases de git, n'hésitez à suivre le CodeLabs débutant dans le cas contraire.
+- Être à l'aise avec les bases de git, n'hésitez pas à suivre le CodeLabs débutant dans le cas contraire.
 
 ## Récupération du projet
 
@@ -185,9 +185,11 @@ git config --global pull.rebase preserve
 
 > Effectuer un rebase lors des pull afin d'éviter les messages de commit pulluant de types "merged".
 
-## Réécriture du dernier commit
+## Réecriture de commit
 
-De temps en temps nous écrivons des commits avec des messages pas toujours pertinants, nous allons voir ici comment modifier le message du dernier commit effectué (les autres cas seront vu dans la partie avancée).
+### Réécriture du dernier commit
+
+De temps en temps nous écrivons des commits avec des messages pas toujours pertinants, nous allons voir ici comment modifier le message du dernier commit effectué.
 Pour cela récupérer le contenu de la branche **amend** et exécutez la commande git lg pour regarder le dernier commit en question. Ce dernier n'est pas réglementaire d'un point de vu convention git. Pour le modifier :
 
 ```
@@ -209,6 +211,27 @@ git push -f
 > -f ou --force pour "forcer" git à écraser le contenu
 
 Il y a une règle d'or à ABSOLUMENT respecter, il ne faut jamais force push la branche **develop** ou **master** car ces dernières sont protégées et doivent avoir un historique propre. Par contre il y a aucun soucis à force push votre branche locale, c'est tout à fait commun ! Attention toutefois si vous êtes plusieurs à travailler sur la même branche :)
+
+### Rebase intéractif
+
+Le cas précédent n'est pas le plus fréquent quand il s'agit de réécrire notre historique de commit, en effet il ne touche qu'au dernier commit effectué. Or dans une grande majorité des cas nous allons également toucher aux autres commit. Par exemple c'est la fin de journée mais notre travail n'est pas encore fini, c'est pourquoi nous décidons de faire un commit intermédiaire pour éviter de perdre ce qu'on vient de faire. Le lendemain nous terminons ce qu'il nous restait à faire, donc nous ajoutons un 2e commit. Le soucis ici c'est qu'on se retrouve avec 2 commits qui sont censés faire exactement la même chose. Tirez la branche **rebase-interactif** et regardez son historique pour bien voir les 2 commits en question.
+Exécutez la commande suivante :
+
+```
+git rebase -i e409c8f
+```
+
+> e409c8f est le SHA-1 du parent du commit à partir duquel on veut commencer à réécrire l'historique.
+
+Plusieurs options s'offrent alors à nous, Git vous propose d'ailleurs tout un tas de commandes, mais nous n'allons n'en utiliser que 2 pour le moment: le squash et le fixup
+
+- le squash permet de fusionner 2 commits et de modifier le message de commit
+- le fixup fusionner également 2 commits mais ne permet de modifier le message.
+
+Dans notre cas nous allons utiliser le squash, pour cela placez vous en dessous du 2e commit et remplacez "pick" par "s" ou "squash"
+
+Modifiez le message de commit, sauvegardez et quittez. Vous devriez voir un message du style "Successfully rebased and updated refs/heads/rebase-interactif."
+Pour s'assurer que le rebase s'est déroulé correctement il n'y a qu'à regarder l'historique de la branche, les 2 commits ont été remplacés par un autre commit. C'est pourquoi vous devez effectuer un force push pour écraser le veille historique du répo distant.
 
 ## À vous de jouer !
 
