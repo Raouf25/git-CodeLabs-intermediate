@@ -18,7 +18,7 @@ Une question ? Une difficulté ? : **gabin.darras@ineat-conseil.fr**
 Pré-requis:
 
 - Avoir **git** installé sur votre machine.
-- Avoir un compte Github/Gitlab pour pouvoir forker le projet
+- Avoir un compte Github/Gitlab pour pouvoir forker le projet.
 - Être à l'aise avec les bases de git, n'hésitez pas à suivre le CodeLabs débutant dans le cas contraire.
 
 ## Récupération du projet
@@ -34,7 +34,7 @@ git clone le-nom-de-votre-projet-après-le-fork
 Dans le guide débutant nous avons vu comment créer une nouvelle branche, commit et push cette dernière. C'est le cas le plus simple que vous pourrez rencontrer au cours de vos différents projets. Néanmoins il existe d'autres configurations un peu moins évidente sur lesquelles nous allons nous attarder.
 La première reste relativement simple, nous avons tiré une branche et nous travaillons dessus normalement (vous pouvez checkout la branch **rebase**). Entre temps la **develop** a été mise à jour par une autre personne donc nous ne sommes plus à jour avec cette dernière.
 
-(Si vous n'avez pas suivi le cours débutant et que vous n'avez crée d'alias je vous conseille vivement d'utiliser celui ci pour un historique de commit plus clair :
+(Si vous n'avez pas suivi le cours débutant et que vous n'avez pas crée d'alias je vous conseille vivement d'utiliser celui ci pour un historique de commit plus clair)
 
 ```
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
@@ -46,11 +46,11 @@ Pour s'en rendre compte il suffit simplement de lancer la commande
 git lg
 ```
 
-l'information qui nous intéresse ici se situe juste avant le message de commit, il s'agit de l'état de la branche courante par rapport aux autres branches. Pour rappel nous avons une **master** qui sert à la production, une **develop** qui à la base a été tirée de **master**, et nos branches actives de développement. Dans notre cas il n'y a aucune trace de la branche **develop**, pourtant nous l'avions bien tiré de cette dernière. Il va donc falloir mettre à jour notre branche avec la nouvelle version de la **develop**
+L'information qui nous intéresse ici se situe juste avant le message de commit, il s'agit de l'état de la branche courante par rapport aux autres branches. Pour rappel nous avons une **master** qui sert à la production, une **develop** qui à la base a été tirée de **master**, et nos branches actives de développement. Dans notre cas il n'y a aucune trace de la branche **develop**, pourtant nous l'avions bien tiré notre branche **rebase** de cette dernière. Il va donc falloir la mettre à jour avec la nouvelle version de la **develop**.
 
 ### Fetch
 
-Le 'fetch' va permettre de synchroniser votre remote avec le répo distant pour qu'ils soient tous les 2 iso. Et oui, pour le moment votre remote ne contient pas encore la modification, voici la commande :
+Le fetch va permettre de synchroniser votre remote avec le répo distant pour qu'ils soient tous les 2 iso. Et oui, pour le moment votre remote ne contient pas encore la modification, voici la commande :
 
 ```
 git fetch -p
@@ -60,13 +60,13 @@ git fetch -p
 
 ### Rebase
 
-Notre remote est bien à jour, nous avons maintenant pouvoir également mettre à jour notre branche, dans le jargons git on appelle cette opération le "rebase". Voici la commande :
+Notre remote est bien à jour, nous avons maintenant pouvoir également mettre à jour notre branche, dans le jargons git on appelle cette opération le rebase. Voici la commande :
 
 ```
 git rebase origin/develop
 ```
 
-Nous pouvons maintenant voir dans l'historique (git lg) que la branche rebase a bien été mise à jour avec le nouveau contenu de la branche **develop**. Si vous êtes nombreux à travailler sur votre projet je vous conseille de faire le rebase au moins une fois par jour, ça vous évitera de très gros conflits ! Conflits ? C'est quoi ? Ça tombe bien c'est la prochaine section :)
+Nous pouvons maintenant voir dans l'historique (git lg) que la branche **rebase** a bien été mise à jour avec le nouveau contenu de la branche **develop**. Si vous êtes nombreux à travailler sur votre projet je vous conseille de faire le rebase au moins une fois par jour, ça vous évitera de très gros conflits ! Conflits ? C'est quoi ? Ça tombe bien c'est la prochaine section :)
 
 ## Rebase avec conflit
 
@@ -112,16 +112,17 @@ git config --global mergetool.keeptemporaries false
 
 Maintenant que notre outil de merge est bien installé, nous sommes prêts à résoudre tous les conflits !
 
-Effectuer de nouveau la commande pour rebase la develop sur la branche **conflict** pour avoir le message de conflit, puis exécutez la commande suivante :
+Effectuer de nouveau la commande pour rebase la **develop** sur la branche **conflict** pour avoir le message de conflit, puis exécutez la commande suivante :
 
 ```
 git mergetool
 ```
 
-> Cette commande va ouvrir l'outil de merge et nous laisser la possibilité de choisir la version souhaitée
+> Cette commande va ouvrir l'outil de merge et nous laisser la possibilité de choisir la version souhaitée.
 
 Une fois le code choisi, vous pouvez enregistrer et fermer l'outil de merge. Si il y a d'autres conflits, ils seront automatiquement détectés et vous seront proposés de la même façon.
-Puis exécutez la commande :
+
+Lorsque tous les conflits sont bien résolus exécutez la commande suivante :
 
 ```
 git rebase --continue
@@ -137,13 +138,13 @@ Le merge est utilisé, comme son nom l'indique, pour fusionner une branche avec 
 
 Normalement la vous devriez vous dire "mais je ne comprends pas, pour récupérer les modifs d'une branche on utilise rebase, et la tu nous parles de merge..." et vous avez parfaitement raison ! Il y a néanmoins une petite subtilité entre les 2 (sinon il n'y aura qu'une seule commande !).
 
-Le rebase a pour but premier de réécrire l'historique du projet (cette partie sera abordée dans le cours avancée). Lorsque vous faites un rebase de la **develop** sur votre branche local, les commits de cette dernière seront réécrit. Pour vérifier cela il suffit de regarder l'id des commits en question, après rebase ils ont changé. C'est la que le rebase pose problème pour la **develop**, en effet cette dernière est une branche protégée donc son historique ne peut à aucun moment être réécrit. C'est la que le merge entre en action !
+Le rebase a pour but de patcher une branche sur une autre. Lorsque vous faites un rebase de la **develop** sur votre branche locale, les commits de cette dernière seront réécrits. Pour vérifier cela il suffit de regarder le SHA-1 des commits en question, SHA-1 qui changent après un rebase. C'est la que ça pose problème pour la **develop**, en effet cette dernière est une branche protégée donc son historique ne peut à aucun moment être réécrit. Mais heureusement le merge existe !
 
-Le merge va simplement ajouter les commits de notre branche locale à la suite des commits de la **develop**. Il y a une condition toutefois à respecter pour que le merge se passe bien, que les 2 branches soient à jour ou dit en langage git...que la branche **develop** ait bien été rebase de la branche locale ! (Attention aux noeuds au cerveau :))
+Le merge va simplement ajouter les commits de notre branche locale à la suite des commits de la **develop**. Il y a une condition toutefois à respecter pour que le merge se passe bien, que les 2 branches soient à jour ou dit en langage git...que la branche **develop** ait bien été rebase sur la branche locale ! (Attention aux noeuds au cerveau :))
 
 ### 1e merge
 
-C'est à vous de jouer maintenant, le but étant de merger la branche "merge" sur la **develop**. Pour cela placez vous sur cette dernière et exécutez la commande suivante :
+C'est à vous de jouer maintenant, le but étant de merger la branche **merge** sur la **develop**. Pour cela placez vous sur cette dernière et exécutez la commande suivante :
 
 ```
 git merge origin/merge --no-ff
@@ -183,7 +184,7 @@ Nous allons donc une nouvelle fois modifier notre fichier de configuration globa
 git config --global pull.rebase preserve
 ```
 
-> Effectuer un rebase lors des pull afin d'éviter les messages de commit pulluant de types "merged".
+> Effectuer un rebase lors des pull afin d'éviter les messages de commit polluant de types "merged".
 
 ## Add "interactif"
 
@@ -195,7 +196,7 @@ git add nom-du-fichier
 
 Pour rappel cette commande permet d'indexer le fichier souhaité pour pouvoir le commit par la suite. Il arrive parfois que nous ne souhaitons pas intégrer toutes les modifications de notre fichier (toujours dans notre but d'un historique propre !) car nous utilisons un composant que nous venons de créer par exemple.
 
-Allez sur la branche **add-interactif**, vous devriez voir un nouveau fichier apparaître (test.txt). Modifiez-le ainsi que le fichier README.md. Le but ici sera de faire 2 commits distincts grâce à la commande :
+Allez sur la branche **add-interactif**, vous devriez voir un nouveau fichier apparaître (test.txt). Modifiez-le ainsi que le fichier README.md, le but ici sera de faire 2 commits distincts grâce à la commande :
 
 ```
 git add -p
@@ -203,10 +204,10 @@ git add -p
 
 Plusieurs choix nous sont proposés ici, nous n'allons regarder que les 2 premiers.
 
-- y (yes) : permet d'indexer la portion de code proposée puis passe à la portion suivante.
+- y (yes) : permet d'indexer la portion de code proposée puis de passer à la portion suivante.
 - n (no): N'indexe pas la portion de code proposée, passe à la portion suivante.
 
-N'ajoutez qu'une des 2 modifications dans un premier puis enregistrer. Pour s'assurer que nos modifications ont bien été indexées, vous pouvez exécuter la commande :
+N'ajoutez qu'une des 2 modifications dans un premier temps puis enregistrer. Pour s'assurer que nos modifications ont bien été indexées, vous pouvez exécuter la commande :
 
 ```
 git status
@@ -229,7 +230,7 @@ git commit --amend
 
 Il n'y a plus qu'à push la correction, une fois cette dernière effectuée.
 
-Et la git est complétement perdu ! Ba oui vous poussez un historique qui a changé, il ne voit plus l'identifiant du dernier commit donc il n'est pas très content
+Et la git est complétement perdu ! Ba oui vous poussez un historique qui a changé, il ne voit plus le SHA-1 du dernier commit donc il n'est pas très content.
 
 > /!\ ATTENTION /!\ Dans ces cas là git vous propose de pull la branche, il ne faut ABSOLUMENT PAS le faire :)
 
@@ -243,23 +244,30 @@ git push -f
 
 Il y a une règle d'or à ABSOLUMENT respecter, il ne faut jamais force push la branche **develop** ou **master** car ces dernières sont protégées et doivent avoir un historique propre. Par contre il y a aucun soucis à force push votre branche locale, c'est tout à fait commun ! Attention toutefois si vous êtes plusieurs à travailler sur la même branche :)
 
+Si vous souhaitez modifier le dernier commit sans en changer le message vous pouvez rajouter l'option --no-edit comme ceci :
+
+```
+git commit --amend --no-edit
+```
+
 ### Rebase intéractif
 
 Le cas précédent n'est pas le plus fréquent quand il s'agit de réécrire notre historique de commit, en effet il ne touche qu'au dernier commit effectué. Or dans une grande majorité des cas nous allons également toucher aux autres commit. Par exemple c'est la fin de journée mais notre travail n'est pas encore fini, c'est pourquoi nous décidons de faire un commit intermédiaire pour éviter de perdre ce qu'on vient de faire. Le lendemain nous terminons ce qu'il nous restait à faire, donc nous ajoutons un 2e commit. Le soucis ici c'est qu'on se retrouve avec 2 commits qui sont censés faire exactement la même chose. Tirez la branche **rebase-interactif** et regardez son historique pour bien voir les 2 commits en question.
+
 Exécutez la commande suivante :
 
 ```
 git rebase -i e409c8f
 ```
 
-> e409c8f est le SHA-1 du parent du commit à partir duquel on veut commencer à réécrire l'historique.
+> e409c8f est le SHA-1 du commit parent à partir duquel on veut commencer à réécrire l'historique.
 
 Plusieurs options s'offrent alors à nous, Git vous propose d'ailleurs tout un tas de commandes, mais nous n'allons n'en utiliser que 2 pour le moment: le squash et le fixup
 
 - le squash permet de fusionner 2 commits et de modifier le message de commit
 - le fixup fusionner également 2 commits mais ne permet de modifier le message.
 
-Dans notre cas nous allons utiliser le squash, pour cela placez vous en dessous du 2e commit et remplacez "pick" par "s" ou "squash"
+Dans notre cas nous allons utiliser le squash, pour cela placez vous en dessous du 2e commit et remplacez "pick" par "s" ou "squash".
 
 Modifiez le message de commit, sauvegardez et quittez. Vous devriez voir un message du style "Successfully rebased and updated refs/heads/rebase-interactif."
 Pour s'assurer que le rebase s'est déroulé correctement il n'y a qu'à regarder l'historique de la branche, les 2 commits ont été remplacés par un autre commit. C'est pourquoi vous devez effectuer un force push pour écraser le veille historique du répo distant.
@@ -272,5 +280,6 @@ Pour cela tirez 3 nouvelles branches EN MÊME TEMPS :
 - Dans la 1e vous modifierez le fichier README.md en ajoutant ce que vous avez aimé dans ce CodeLabs.
 - Dans la 2e vous ajouterez une image de votre humeur actuellement.
 - Dans la 3e vous modifierez le fichier README.md en ajoutant ce qui pourrait être amélioré dans ce CodeLabs.
+- Mince, j'ai oublié de préciser que votre humeur devra également être présent dans le fichier README.md, c'est le moment de faire un rebase interactif !
 
 La branche **develop** devra contenir donc 3 commits à la fin :)
