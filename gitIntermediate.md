@@ -185,6 +185,37 @@ git config --global pull.rebase preserve
 
 > Effectuer un rebase lors des pull afin d'éviter les messages de commit pulluant de types "merged".
 
+## Add "interactif"
+
+Dans le CodeLabs débutant on a vu comment utiliser la commande
+
+```
+git add nom-du-fichier
+```
+
+Pour rappel cette commande permet d'indexer le fichier souhaité pour pouvoir le commit par la suite. Il arrive parfois que nous ne souhaitons pas intégrer toutes les modifications de notre fichier (toujours dans notre but d'un historique propre !) car nous utilisons un composant que nous venons de créer par exemple.
+
+Allez sur la branche **add-interactif**, vous devriez voir un nouveau fichier apparaître (test.txt). Modifiez-le ainsi que le fichier README.md. Le but ici sera de faire 2 commits distincts grâce à la commande :
+
+```
+git add -p
+```
+
+Plusieurs choix nous sont proposés ici, nous n'allons regarder que les 2 premiers.
+
+- y (yes) : permet d'indexer la portion de code proposée puis passe à la portion suivante.
+- n (no): N'indexe pas la portion de code proposée, passe à la portion suivante.
+
+N'ajoutez qu'une des 2 modifications dans un premier puis enregistrer. Pour s'assurer que nos modifications ont bien été indexées, vous pouvez exécuter la commande :
+
+```
+git status
+```
+
+> A ce moment la vous devriez avoir un fichier en vert et un en rouge. Le fichier en vert est prêt à être commit.
+
+Créez un premier commit puis répétez l'opération jusqu'à ce qu'il n'y ait plus de modifications à indexer.
+
 ## Réecriture de commit
 
 ### Réécriture du dernier commit
