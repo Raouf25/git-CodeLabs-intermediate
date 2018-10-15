@@ -237,12 +237,12 @@ Et la git est complétement perdu ! Ba oui vous poussez un historique qui a chan
 En fait il suffit simplement de préciser que la version qu'on a est la bonne et qu'elle doit tout bonnement remplacer la version présente sur le repo distant. Voici la commande
 
 ```
-git push -f
+git push --force-with-lease
 ```
 
-> -f ou --force pour "forcer" git à écraser le contenu
+> --force-with-lease permet de ne pas entièrement réécrire la remote, ce qui peut être très problématique si vous travaillez à plusieurs sur une même branche.
 
-Il y a une règle d'or à ABSOLUMENT respecter, il ne faut jamais force push la branche **develop** ou **master** car ces dernières sont protégées et doivent avoir un historique propre. Par contre il y a aucun soucis à force push votre branche locale, c'est tout à fait commun ! Attention toutefois si vous êtes plusieurs à travailler sur la même branche :)
+Il y a une règle d'or à ABSOLUMENT respecter, il ne faut jamais force push la branche **develop** ou **master** car ces dernières sont protégées et doivent avoir un historique propre. Par contre il y a aucun soucis à force push votre branche locale, c'est tout à fait commun !
 
 Si vous souhaitez modifier le dernier commit sans en changer le message vous pouvez rajouter l'option --no-edit comme ceci :
 
